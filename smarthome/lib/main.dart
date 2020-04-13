@@ -31,6 +31,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Makss Domotic',
       theme: ThemeData(
+        brightness: Brightness.dark,
         buttonColor: Colors.orange,
         accentColor: Colors.orangeAccent,
         toggleableActiveColor: Colors.deepOrangeAccent,
@@ -94,6 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        backgroundColor: Colors.transparent,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -429,7 +431,7 @@ class RoundButton extends StatelessWidget {
         height: 76.0,
       ),
       shape: CircleBorder(),
-      fillColor: Colors.grey.shade300,
+      fillColor: Colors.grey.shade800,
     );
   }
 }
