@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() => runApp(MyApp());
 
@@ -30,16 +31,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Makss Domotic',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
+        buttonColor: Colors.orange,
+        accentColor: Colors.orangeAccent,
+        toggleableActiveColor: Colors.deepOrangeAccent,
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
+          backgroundColor: Colors.orange,
+        ),
       ),
       home: MyHomePage(title: 'Makss Domotic'),
     );
@@ -66,7 +63,25 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   String typedNumber = "";
-  String srvAddress = "http://192.168.2.36/";
+  String srvAddress = "192.168.2.36";
+  bool foundFromPref = false;
+  String newSrvAddr = "";
+  String log = "";
+
+  Future _retrieveInfoFromPref() async {
+    SharedPreferences.getInstance().then(
+      (prefs) => setState(() {
+        srvAddress = prefs.getString('prefs') ?? "192.168.2.36";
+        foundFromPref = (prefs.getString('prefs') == null) ? false : true;
+      }),
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _retrieveInfoFromPref();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,202 +95,297 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              SizedBox(
-                width: 20,
-              ),
-              NumberedRoundButton(
-                  num: "1",
-                  onPressed: () {
-                    http.get("http://192.168.2.36/1");
-                    setState(() {
-                      typedNumber += "1";
-                    });
-                  }),
-              SizedBox(
-                width: 20,
-              ),
-              NumberedRoundButton(
-                  num: "2",
-                  onPressed: () {
-                    http.get("http://192.168.2.36/2");
-                    setState(() {
-                      typedNumber += "2";
-                    });
-                  }),
-              SizedBox(
-                width: 20,
-              ),
-              NumberedRoundButton(
-                  num: "3",
-                  onPressed: () {
-                    http.get("http://192.168.2.36/3");
-                    setState(() {
-                      typedNumber += "3";
-                    });
-                  }),
-              SizedBox(
-                width: 20,
-              )
-            ],
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              SizedBox(
-                width: 20,
-              ),
-              NumberedRoundButton(
-                  num: "4",
-                  onPressed: () {
-                    http.get("http://192.168.2.36/4");
-                    setState(() {
-                      typedNumber += "4";
-                    });
-                  }),
-              SizedBox(
-                width: 20,
-              ),
-              NumberedRoundButton(
-                  num: "5",
-                  onPressed: () {
-                    http.get("http://192.168.2.36/5");
-                    setState(() {
-                      typedNumber += "5";
-                    });
-                  }),
-              SizedBox(
-                width: 20,
-              ),
-              NumberedRoundButton(
-                  num: "6",
-                  onPressed: () {
-                    http.get("http://192.168.2.36/6");
-                    setState(() {
-                      typedNumber += "6";
-                    });
-                  }),
-              SizedBox(
-                width: 20,
-              )
-            ],
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              SizedBox(
-                width: 20,
-              ),
-              NumberedRoundButton(
-                  num: "7",
-                  onPressed: () {
-                    http.get("http://192.168.2.36/7");
-                    setState(() {
-                      typedNumber += "7";
-                    });
-                  }),
-              SizedBox(
-                width: 20,
-              ),
-              NumberedRoundButton(
-                  num: "8",
-                  onPressed: () {
-                    http.get("http://192.168.2.36/8");
-                    setState(() {
-                      typedNumber += "8";
-                    });
-                  }),
-              SizedBox(
-                width: 20,
-              ),
-              NumberedRoundButton(
-                  num: "9",
-                  onPressed: () {
-                    http.get("http://192.168.2.36/9");
-                    setState(() {
-                      typedNumber += "9";
-                    });
-                  }),
-              SizedBox(
-                width: 20,
-              )
-            ],
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              SizedBox(
-                width: 20,
-              ),
-              NumberedRoundButton(
-                  num: '*',
-                  onPressed: () {
-                    http.get("http://192.168.2.36/off");
-                    setState(() {
-                      typedNumber += "*";
-                    });
-                  }),
-              SizedBox(
-                width: 20,
-              ),
-              GestureDetector(
-                /// When doing a long tap on 0 button, we enter +
-                onLongPress: () {
-                  setState(() {
-                    typedNumber += '+';
-                  });
-                },
-                child: NumberedRoundButton(
-                    num: "0",
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            SizedBox(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(
+                  width: 20,
+                ),
+                NumberedRoundButton(
+                    num: "1",
                     onPressed: () {
-                    http.get("http://192.168.2.36/0");
+                      http
+                          .get("http://$srvAddress/1")
+                          .catchError((e) => setState(() {
+                                log += e.toString() + "\n\n";
+                              }));
                       setState(() {
-                        typedNumber += "0";
+                        typedNumber += "1";
                       });
                     }),
-              ),
-              SizedBox(
-                width: 20,
-              ),
-              NumberedRoundButton(
-                  num: "#",
-                  onPressed: () {
-                    http.get("http://192.168.2.36/off");
-                    setState(() {
-                      typedNumber += "#";
-                    });
-                  }),
-              SizedBox(
-                width: 20,
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 30,
-          ),
-        ],
+                SizedBox(
+                  width: 20,
+                ),
+                NumberedRoundButton(
+                    num: "2",
+                    onPressed: () {
+                      http
+                          .get("http://$srvAddress/2")
+                          .catchError((e) => setState(() {
+                                log += e.toString() + "\n\n";
+                              }));
+                      setState(() {
+                        typedNumber += "2";
+                      });
+                    }),
+                SizedBox(
+                  width: 20,
+                ),
+                NumberedRoundButton(
+                    num: "3",
+                    onPressed: () {
+                      http
+                          .get("http://$srvAddress/3")
+                          .catchError((e) => setState(() {
+                                log += e.toString() + "\n\n";
+                              }));
+                      setState(() {
+                        typedNumber += "3";
+                      });
+                    }),
+                SizedBox(
+                  width: 20,
+                )
+              ],
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(
+                  width: 20,
+                ),
+                NumberedRoundButton(
+                    num: "4",
+                    onPressed: () {
+                      http
+                          .get("http://$srvAddress/4")
+                          .catchError((e) => setState(() {
+                                log += e.toString() + "\n\n";
+                              }));
+                      setState(() {
+                        typedNumber += "4";
+                      });
+                    }),
+                SizedBox(
+                  width: 20,
+                ),
+                NumberedRoundButton(
+                    num: "5",
+                    onPressed: () {
+                      http
+                          .get("http://$srvAddress/5")
+                          .catchError((e) => setState(() {
+                                log += e.toString() + "\n\n";
+                              }));
+                      setState(() {
+                        typedNumber += "5";
+                      });
+                    }),
+                SizedBox(
+                  width: 20,
+                ),
+                NumberedRoundButton(
+                    num: "6",
+                    onPressed: () {
+                      http
+                          .get("http://$srvAddress/6")
+                          .catchError((e) => setState(() {
+                                log += e.toString() + "\n\n";
+                              }));
+                      setState(() {
+                        typedNumber += "6";
+                      });
+                    }),
+                SizedBox(
+                  width: 20,
+                )
+              ],
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(
+                  width: 20,
+                ),
+                NumberedRoundButton(
+                    num: "7",
+                    onPressed: () {
+                      http
+                          .get("http://$srvAddress/7")
+                          .catchError((e) => setState(() {
+                                log += e.toString() + "\n\n";
+                              }));
+                      setState(() {
+                        typedNumber += "7";
+                      });
+                    }),
+                SizedBox(
+                  width: 20,
+                ),
+                NumberedRoundButton(
+                    num: "8",
+                    onPressed: () {
+                      http
+                          .get("http://$srvAddress/8")
+                          .catchError((e) => setState(() {
+                                log += e.toString() + "\n\n";
+                              }));
+                      setState(() {
+                        typedNumber += "8";
+                      });
+                    }),
+                SizedBox(
+                  width: 20,
+                ),
+                NumberedRoundButton(
+                    num: "9",
+                    onPressed: () {
+                      http
+                          .get("http://$srvAddress/9")
+                          .catchError((e) => setState(() {
+                                log += e.toString() + "\n\n";
+                              }));
+                      setState(() {
+                        typedNumber += "9";
+                      });
+                    }),
+                SizedBox(
+                  width: 20,
+                )
+              ],
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(
+                  width: 20,
+                ),
+                NumberedRoundButton(
+                    num: '*',
+                    onPressed: () {
+                      http
+                          .get("http://$srvAddress/off")
+                          .catchError((e) => setState(() {
+                                log += e.toString() + "\n\n";
+                              }));
+                      setState(() {
+                        typedNumber += "*";
+                      });
+                    }),
+                SizedBox(
+                  width: 20,
+                ),
+                GestureDetector(
+                  child: NumberedRoundButton(
+                      num: "0",
+                      onPressed: () {
+                        http
+                            .get("http://$srvAddress/0")
+                            .catchError((e) => setState(() {
+                                  log += e.toString() + "\n\n";
+                                }));
+                        setState(() {
+                          typedNumber += "0";
+                        });
+                      }),
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+                NumberedRoundButton(
+                    num: "#",
+                    onPressed: () {
+                      http
+                          .get("http://$srvAddress/off")
+                          .catchError((e) => setState(() {
+                                log += e.toString() + "\n\n";
+                              }));
+                      setState(() {
+                        typedNumber += "#";
+                      });
+                    }),
+                SizedBox(
+                  width: 20,
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            ListTile(
+              title: Text(srvAddress),
+              leading: (foundFromPref) ? Icon(Icons.star) : null,
+              trailing: Icon(Icons.edit),
+              onTap: () => {
+                showDialog(
+                    context: context,
+                    child: AlertDialog(
+                      title: Text("Bonn"),
+                      content: TextFormField(
+                        initialValue: srvAddress,
+                        keyboardType: TextInputType.number,
+                        decoration:
+                            InputDecoration(labelText: 'New server address'),
+                        onChanged: (input) => newSrvAddr = input,
+                      ),
+                      actions: <Widget>[
+                        new FlatButton(
+                          child: new Text('Cancel'),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                        new FlatButton(
+                          child: new Text(
+                            'Save!',
+                            style: TextStyle(
+                              color: Colors.deepOrangeAccent,
+                            ),
+                          ),
+                          onPressed: () {
+                            srvAddress = newSrvAddr;
+                            _updateLocalData();
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    ))
+              },
+            ),
+            SizedBox(height: 20),
+            Text(log),
+          ],
+        ),
       ),
     );
+  }
 
+  Future _updateLocalData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('srvAddress', srvAddress);
+    setState(() {
+      log = "";
+      foundFromPref = true;
+    });
   }
 }
-
-
 
 class NumberedRoundButton extends StatelessWidget {
   NumberedRoundButton({this.num, this.onPressed});
