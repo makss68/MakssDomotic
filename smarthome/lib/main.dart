@@ -11,9 +11,9 @@ const Map<String, String> numToTextMapping = {
   "4": "RGB",
   "5": "POL",
   "6": "STR",
-  "7": "+++",
+  "7": "---",
   "8": "TIM",
-  "9": "---",
+  "9": "+++",
   "0": "ON",
   "*": "OFF",
   "#": "OFF"
@@ -339,10 +339,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 showDialog(
                     context: context,
                     child: AlertDialog(
-                      title: Text("Bonn"),
+                      title: Text("New Server Address"),
                       content: TextFormField(
                         initialValue: srvAddress,
-                        keyboardType: TextInputType.number,
+                        keyboardType: TextInputType.numberWithOptions(decimal:true),
                         decoration:
                             InputDecoration(labelText: 'New server address'),
                         onChanged: (input) => newSrvAddr = input,
