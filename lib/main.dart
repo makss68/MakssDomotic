@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -140,9 +141,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Text("OFF"),
                 ),
                 onPressed: () {
+                  HapticFeedback.lightImpact();
                   http
                       .get("http://$srvAddress/OFF")
                       .catchError((e) => setState(() {
+                            HapticFeedback.vibrate();
                             log += e.toString() + "\n\n";
                           }));
                 },
@@ -156,9 +159,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Text("ON"),
                 ),
                 onPressed: () {
+                  HapticFeedback.lightImpact();
                   http
                       .get("http://$srvAddress/ON")
                       .catchError((e) => setState(() {
+                            HapticFeedback.vibrate();
                             log += e.toString() + "\n\n";
                           }));
                 },
@@ -171,9 +176,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Text("RED"),
                 ),
                 onPressed: () {
+                  HapticFeedback.lightImpact();
                   http
                       .get("http://$srvAddress/RED")
                       .catchError((e) => setState(() {
+                            HapticFeedback.vibrate();
                             log += e.toString() + "\n\n";
                           }));
                 },
@@ -186,9 +193,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Text("GREEN"),
                 ),
                 onPressed: () {
+                  HapticFeedback.lightImpact();
                   http
                       .get("http://$srvAddress/GREEN")
                       .catchError((e) => setState(() {
+                            HapticFeedback.vibrate();
                             log += e.toString() + "\n\n";
                           }));
                 },
@@ -201,9 +210,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Text("BLUE"),
                 ),
                 onPressed: () {
+                  HapticFeedback.lightImpact();
                   http
                       .get("http://$srvAddress/BLUE")
                       .catchError((e) => setState(() {
+                            HapticFeedback.vibrate();
                             log += e.toString() + "\n\n";
                           }));
                 },
@@ -216,9 +227,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Text("RAINBOW"),
                 ),
                 onPressed: () {
+                  HapticFeedback.lightImpact();
                   http
                       .get("http://$srvAddress/RAINBOW")
                       .catchError((e) => setState(() {
+                            HapticFeedback.vibrate();
                             log += e.toString() + "\n\n";
                           }));
                 },
@@ -231,9 +244,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Text("COLORFADE"),
                 ),
                 onPressed: () {
+                  HapticFeedback.lightImpact();
                   http
                       .get("http://$srvAddress/FADE")
                       .catchError((e) => setState(() {
+                            HapticFeedback.vibrate();
                             log += e.toString() + "\n\n";
                           }));
                 },
@@ -246,9 +261,25 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Text("FRANCE"),
                 ),
                 onPressed: () {
+                  HapticFeedback.lightImpact();
                   http
                       .get("http://$srvAddress/FRANCE")
                       .catchError((e) => setState(() {
+                            HapticFeedback.vibrate();
+                            log += e.toString() + "\n\n";
+                          }));
+                },
+              ),
+              ElevatedButton(
+                child: Container(
+                  child: Text("PINGPONG"),
+                ),
+                onPressed: () {
+                  HapticFeedback.lightImpact();
+                  http
+                      .get("http://$srvAddress/PINGPONG")
+                      .catchError((e) => setState(() {
+                            HapticFeedback.vibrate();
                             log += e.toString() + "\n\n";
                           }));
                 },
@@ -280,10 +311,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 SizedBox(width: 15),
                 IconButton(
                   onPressed: () {
+                    HapticFeedback.lightImpact();
                     http
                         .get("http://$srvAddress/BRI=" +
                             _currentBrightness.round().toString())
                         .catchError((e) => setState(() {
+                              HapticFeedback.vibrate();
                               log += e.toString() + "\n\n";
                             }));
                   },
@@ -298,8 +331,8 @@ class _MyHomePageState extends State<MyHomePage> {
           Slider(
             value: _currentSpeed,
             min: 1,
-            max: 10,
-            divisions: 10,
+            max: 15,
+            divisions: 15,
             label: _currentSpeed.round().toString(),
             onChanged: (double value) {
               setState(() {
@@ -317,10 +350,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 SizedBox(width: 15),
                 IconButton(
                   onPressed: () {
+                    HapticFeedback.lightImpact();
                     http
                         .get("http://$srvAddress/SPEED=" +
                             _currentSpeed.round().toString())
                         .catchError((e) => setState(() {
+                              HapticFeedback.vibrate();
                               log += e.toString() + "\n\n";
                             }));
                   },
@@ -335,8 +370,8 @@ class _MyHomePageState extends State<MyHomePage> {
           Slider(
             value: _currentTempo,
             min: 1,
-            max: 15,
-            divisions: 15,
+            max: 25,
+            divisions: 25,
             label: _currentTempo.round().toString(),
             onChanged: (double value) {
               setState(() {
@@ -354,10 +389,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 SizedBox(width: 15),
                 IconButton(
                   onPressed: () {
+                    HapticFeedback.lightImpact();
                     http
                         .get("http://$srvAddress/TEMPO=" +
                             _currentTempo.round().toString())
                         .catchError((e) => setState(() {
+                              HapticFeedback.vibrate();
                               log += e.toString() + "\n\n";
                             }));
                   },
@@ -389,9 +426,11 @@ class _MyHomePageState extends State<MyHomePage> {
             NumberedRoundButton(
                 num: "1",
                 onPressed: () {
+                  HapticFeedback.lightImpact();
                   http
                       .get("http://$srvAddress/1")
                       .catchError((e) => setState(() {
+                            HapticFeedback.vibrate();
                             log += e.toString() + "\n\n";
                           }));
                   setState(() {
@@ -404,9 +443,11 @@ class _MyHomePageState extends State<MyHomePage> {
             NumberedRoundButton(
                 num: "2",
                 onPressed: () {
+                  HapticFeedback.lightImpact();
                   http
                       .get("http://$srvAddress/2")
                       .catchError((e) => setState(() {
+                            HapticFeedback.vibrate();
                             log += e.toString() + "\n\n";
                           }));
                   setState(() {
@@ -419,9 +460,11 @@ class _MyHomePageState extends State<MyHomePage> {
             NumberedRoundButton(
                 num: "3",
                 onPressed: () {
+                  HapticFeedback.lightImpact();
                   http
                       .get("http://$srvAddress/3")
                       .catchError((e) => setState(() {
+                            HapticFeedback.vibrate();
                             log += e.toString() + "\n\n";
                           }));
                   setState(() {
@@ -445,9 +488,11 @@ class _MyHomePageState extends State<MyHomePage> {
             NumberedRoundButton(
                 num: "4",
                 onPressed: () {
+                  HapticFeedback.lightImpact();
                   http
                       .get("http://$srvAddress/4")
                       .catchError((e) => setState(() {
+                            HapticFeedback.vibrate();
                             log += e.toString() + "\n\n";
                           }));
                   setState(() {
@@ -460,9 +505,11 @@ class _MyHomePageState extends State<MyHomePage> {
             NumberedRoundButton(
                 num: "5",
                 onPressed: () {
+                  HapticFeedback.lightImpact();
                   http
                       .get("http://$srvAddress/5")
                       .catchError((e) => setState(() {
+                            HapticFeedback.vibrate();
                             log += e.toString() + "\n\n";
                           }));
                   setState(() {
@@ -475,9 +522,11 @@ class _MyHomePageState extends State<MyHomePage> {
             NumberedRoundButton(
                 num: "6",
                 onPressed: () {
+                  HapticFeedback.lightImpact();
                   http
                       .get("http://$srvAddress/6")
                       .catchError((e) => setState(() {
+                            HapticFeedback.vibrate();
                             log += e.toString() + "\n\n";
                           }));
                   setState(() {
@@ -501,9 +550,11 @@ class _MyHomePageState extends State<MyHomePage> {
             NumberedRoundButton(
                 num: "7",
                 onPressed: () {
+                  HapticFeedback.lightImpact();
                   http
                       .get("http://$srvAddress/7")
                       .catchError((e) => setState(() {
+                            HapticFeedback.vibrate();
                             log += e.toString() + "\n\n";
                           }));
                   setState(() {
@@ -516,9 +567,11 @@ class _MyHomePageState extends State<MyHomePage> {
             NumberedRoundButton(
                 num: "8",
                 onPressed: () {
+                  HapticFeedback.lightImpact();
                   http
                       .get("http://$srvAddress/8")
                       .catchError((e) => setState(() {
+                            HapticFeedback.vibrate();
                             log += e.toString() + "\n\n";
                           }));
                   setState(() {
@@ -531,9 +584,11 @@ class _MyHomePageState extends State<MyHomePage> {
             NumberedRoundButton(
                 num: "9",
                 onPressed: () {
+                  HapticFeedback.lightImpact();
                   http
                       .get("http://$srvAddress/9")
                       .catchError((e) => setState(() {
+                            HapticFeedback.vibrate();
                             log += e.toString() + "\n\n";
                           }));
                   setState(() {
@@ -557,9 +612,11 @@ class _MyHomePageState extends State<MyHomePage> {
             NumberedRoundButton(
                 num: '*',
                 onPressed: () {
+                  HapticFeedback.lightImpact();
                   http
                       .get("http://$srvAddress/off")
                       .catchError((e) => setState(() {
+                            HapticFeedback.vibrate();
                             log += e.toString() + "\n\n";
                           }));
                   setState(() {
@@ -573,9 +630,11 @@ class _MyHomePageState extends State<MyHomePage> {
               child: NumberedRoundButton(
                   num: "0",
                   onPressed: () {
+                    HapticFeedback.lightImpact();
                     http
                         .get("http://$srvAddress/0")
                         .catchError((e) => setState(() {
+                              HapticFeedback.vibrate();
                               log += e.toString() + "\n\n";
                             }));
                     setState(() {
@@ -589,9 +648,11 @@ class _MyHomePageState extends State<MyHomePage> {
             NumberedRoundButton(
                 num: "#",
                 onPressed: () {
+                  HapticFeedback.lightImpact();
                   http
                       .get("http://$srvAddress/off")
                       .catchError((e) => setState(() {
+                            HapticFeedback.vibrate();
                             log += e.toString() + "\n\n";
                           }));
                   setState(() {
@@ -661,6 +722,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     ),
                     onPressed: () {
+                      HapticFeedback.lightImpact();
                       srvAddress = newSrvAddr;
                       _updateLocalData();
                       Navigator.of(context).pop();
